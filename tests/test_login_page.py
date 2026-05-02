@@ -20,21 +20,21 @@ class TestLoginPage:
             sauce_demo.login_page.wait_for_login_page_to_load()
             sauce_demo.login_page.is_login_page_loaded()
 
-    # @pytest.mark.parametrize("username", ["standard_user"])
-    # @pytest.mark.parametrize("password", ["secret_sauce"])
-    # def test_login_successful(
-    #     self, get_test_instance, username: str, password: str
-    # ) -> None:
-    #     login_page = get_test_instance.login_page
-    #     inventory_page = get_test_instance.inventory_page
-    #
-    #     login_page.enter_text_in_username_field(username=username)
-    #     login_page.enter_text_in_password_field(password=password)
-    #     login_page.click_login_button()
-    #     check.is_true(
-    #         inventory_page.is_dashboard_visible(),
-    #         "Expected Inventory page to be loaded for valid login creds but login failed ",
-    #     )
+    @pytest.mark.parametrize("username", ["standard_user"])
+    @pytest.mark.parametrize("password", ["secret_sauce"])
+    def test_login_successful(
+        self, get_test_instance, username: str, password: str
+    ) -> None:
+        login_page = get_test_instance.login_page
+        inventory_page = get_test_instance.inventory_page
+
+        login_page.enter_text_in_username_field(username=username)
+        login_page.enter_text_in_password_field(password=password)
+        login_page.click_login_button()
+        check.is_true(
+            inventory_page.is_dashboard_visible(),
+            "Expected Inventory page to be loaded for valid login creds but login failed ",
+        )
 
     @pytest.mark.parametrize("username", [os.getenv("username")])
     @pytest.mark.parametrize("password", [os.getenv("password")])
