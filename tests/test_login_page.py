@@ -9,7 +9,7 @@ from playwright.sync_api import Page
 
 class TestLoginPage:
 
-    @pytest.fixture(scope="function")
+    @pytest.fixture(scope="module")
     def get_test_instance(self, page: Page) -> Generator[SauceDemo, None, None]:
         sauce_demo = SauceDemo(page=page)
         sauce_demo.login_page.wait_for_login_page_to_load()
