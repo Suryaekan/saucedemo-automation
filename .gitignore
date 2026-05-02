@@ -1,0 +1,21 @@
+# Virtual environment
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Pytest
+.pytest_cache/
+
+# Reports / artifacts
+artifacts/
+reports/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
