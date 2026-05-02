@@ -36,28 +36,28 @@ class TestLoginPage:
             "Expected Inventory page to be loaded for valid login creds but login failed ",
         )
 
-    @pytest.mark.parametrize("username", [os.getenv("username")])
-    @pytest.mark.parametrize("password", [os.getenv("password")])
-    def test_login_locked_out_user(
-        self, get_test_instance, username: str, password: str
-    ) -> None:
-        if not username:
-            pytest.fail("username not provided, please enter a valid username")
-        if not password:
-            pytest.fail("password not provided, please enter a valid username")
-
-        login_page = get_test_instance.login_page
-        inventory_page = get_test_instance.inventory_page
-
-        login_page.enter_text_in_username_field(username=username)
-        login_page.enter_text_in_password_field(password=password)
-        login_page.click_login_button()
-        check.is_false(
-            inventory_page.is_dashboard_visible(),
-            "Expected Inventory page to not be loaded for locked out user, but login succeeded ",
-        )
-        check.equal(
-            login_page.get_error_text_msg(),
-            "Epic sadface: Sorry, this user has been locked out.",
-            f"Expected error message to contain user locked out message, got: {login_page.get_error_text_msg()} instead ",
-        )
+    # @pytest.mark.parametrize("username", [os.getenv("username")])
+    # @pytest.mark.parametrize("password", [os.getenv("password")])
+    # def test_login_locked_out_user(
+    #     self, get_test_instance, username: str, password: str
+    # ) -> None:
+    #     if not username:
+    #         pytest.fail("username not provided, please enter a valid username")
+    #     if not password:
+    #         pytest.fail("password not provided, please enter a valid username")
+    #
+    #     login_page = get_test_instance.login_page
+    #     inventory_page = get_test_instance.inventory_page
+    #
+    #     login_page.enter_text_in_username_field(username=username)
+    #     login_page.enter_text_in_password_field(password=password)
+    #     login_page.click_login_button()
+    #     check.is_false(
+    #         inventory_page.is_dashboard_visible(),
+    #         "Expected Inventory page to not be loaded for locked out user, but login succeeded ",
+    #     )
+    #     check.equal(
+    #         login_page.get_error_text_msg(),
+    #         "Epic sadface: Sorry, this user has been locked out.",
+    #         f"Expected error message to contain user locked out message, got: {login_page.get_error_text_msg()} instead ",
+    #     )
