@@ -1,54 +1,94 @@
-# Sauce Demo automation
+# Sauce Demo Automation Framework
 
-End-to-end UI tests for [Sauce Demo](https://www.saucedemo.com/) using [Playwright](https://playwright.dev/python/) and [pytest](https://pytest.org/). The suite follows a page object pattern: locators live under `src/locators/`, page actions under `src/pages/`, and scenarios under `tests/`.
+End-to-end UI test automation for [Sauce Demo](https://www.saucedemo.com/) built with **Playwright** and **Pytest**. Follows a clean Page Object Model pattern with locators, page actions, and test scenarios separated into distinct layers. Tests run automatically on every push via GitHub Actions CI.
 
-## Requirements
+## Tech Stack
 
-- Python **3.12** (matches CI)
-- pip
+- **Language:** Python 3.12
+- **Test Framework:** Pytest
+- **Browser Automation:** Playwright
+- **Design Pattern:** Page Object Model — locators decoupled from page actions
+- **Assertions:** pytest-check (soft assertions)
+- **Reporting:** pytest-html (self-contained HTML report)
+- **CI/CD:** GitHub Actions (headless Chromium on Ubuntu)
+- **Parallel Execution:** pytest-xdist
+
+## Project Structure
+
+```
+saucedemo-automation/
+├── .github/workflows/
+│   └── ci.yml                  # GitHub Actions pipeline
+├── src/
+│   ├── locators/               # XPath selectors only
+│   │   ├── login_page_locators.py
+│   │   └── inventory_page_locators.py
+│   └── pages/                  # Page actions
+│       ├── login_page.py
+│       ├── inventory_page.py
+│       └── sauce_demo.py       # Facade combining all pages
+├── tests/
+│   └── test_login_page.py
+├── conftest.py                 # Session-scoped browser, context, page fixtures
+├── pytest.ini                  # Default options and report path
+└── requirements.txt
+```
+
+## Key Features
+
+- **Locators separated from page objects** — selectors in `src/locators/`, actions in `src/pages/`, keeping maintenance clean
+- **Session-scoped fixtures** — browser and context initialised once per session for faster runs
+- **Soft assertions** — `pytest-check` allows multiple checks per test without stopping on first failure
+- **Parametrized tests** — login scenarios driven by parameters for easy data-driven expansion
+- **Auto teardown** — fixture handles logout after each test, keeping state clean between runs
+- **CI pipeline** — GitHub Actions runs full suite headlessly on every push to main and uploads HTML report as artifact
 
 ## Setup
 
 ```bash
+# Clone the repo
+git clone https://github.com/Suryaekan/saucedemo-automation.git
+cd saucedemo-automation
+
+# Create virtual environment
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install --upgrade pip
+
+# Install dependencies
 pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
-## Run tests
-
-From the repository root (so `src` is importable as in CI):
+## Running Tests
 
 ```bash
+# Run all tests
 pytest -v
+
+# Run a specific file
+pytest tests/test_login_page.py -v
+
+# Run tests matching a keyword
+pytest -k login -v
+
+# Run in parallel
+pytest -n auto
 ```
 
-Default options (see `pytest.ini`) generate a self-contained HTML report at `artifacts/reports/report.html`. Open that file in a browser after a run.
-
-Useful variants:
-
-```bash
-pytest tests/test_login_page.py -v          # single file
-pytest -k login -v                          # tests matching a name fragment
-pytest -n auto                              # parallel workers (pytest-xdist)
-```
-
-## Project layout
-
-| Path | Role |
-|------|------|
-| `conftest.py` | Session-scoped Playwright browser, context, and page; opens Sauce Demo once per session |
-| `src/locators/` | XPath (and other) selectors |
-| `src/pages/` | Page objects (`LoginPage`, `InventoryPage`, `SauceDemo` facade) |
-| `tests/` | Pytest modules |
-| `artifacts/reports/` | HTML report output (gitignored) |
+HTML report is auto-generated at `artifacts/reports/report.html` after each run.
 
 ## CI
 
-GitHub Actions (`.github/workflows/ci.yml`) runs on pushes and pull requests to `main`: installs dependencies, installs Chromium for Playwright, runs `pytest -v`, and uploads the HTML report as a workflow artifact.
+GitHub Actions runs on every push and pull request to `main`:
+- Sets up Python 3.12
+- Installs dependencies and Playwright Chromium
+- Runs full test suite headlessly
+- Uploads HTML report as a workflow artifact
 
-## Notes
+## Test Coverage
 
-- Tests run **headless** with a 1 second slow motion delay (`conftest.py`), which helps stability when debugging locally; adjust `slow_mo` or `headless` there if you need a visible browser or faster runs.
+| Module | Scenarios |
+|---|---|
+| Login | Valid credentials — successful login and dashboard load |
+| Login | Locked out user — error message validation (parametrized, env-var driven) |
+| Logout | Auto teardown via fixture after each test |
