@@ -24,6 +24,7 @@ def page(context: BrowserContext):
     page.goto("https://www.saucedemo.com/")
     page.locator("//input[@data-test='username']").fill(username)
     page.locator("//input[@data-test='password']").fill(password)
+    print(f"logging with username: {username} and password: {password}")
     page.locator("//input[@data-test='login-button']").click()
     page.wait_for_url("https://www.saucedemo.com/inventory.html")
     yield page
