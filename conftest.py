@@ -96,6 +96,7 @@ def page(context: BrowserContext) -> Generator[Page, None, None]:
     """
     username = os.getenv("username")
     password = os.getenv("password")
+    page = context.new_page()
     page.goto("https://www.saucedemo.com/")
     page.locator("//input[@data-test='username']").fill(username)
     page.locator("//input[@data-test='password']").fill(password)
