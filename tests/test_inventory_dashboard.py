@@ -1,10 +1,14 @@
+import logging
 from typing import Generator
 
 import pytest
 import pytest_check
 from playwright.sync_api import Page
 
+from src.logutil import get_logger
 from src.pages.sauce_demo import SauceDemo
+
+logger: logging.Logger = get_logger(__name__)
 
 class TestInventory:
 
@@ -27,6 +31,7 @@ class TestInventory:
             listed_items,
             "The items are not sorted in ascending order according to their names",
         )
+        logger.info("Successfully verified sorting of items based Ascending order of item names ")
 
     @pytest.mark.inventory_page
     def test_sort_items_by_name_in_descending_order(
@@ -41,6 +46,7 @@ class TestInventory:
             listed_items,
             "The items are not sorted in descending order according to their names",
         )
+        logger.info("Successfully verified sorting of items based Descending order of item names ")
 
     @pytest.mark.inventory_page
     def test_sort_items_by_price_in_ascending_order(
@@ -55,6 +61,7 @@ class TestInventory:
             item_prices,
             "The items are not sorted in ascending order according to their prices",
         )
+        logger.info("Successfully verified sorting of items based on low price to high price ")
 
     @pytest.mark.inventory_page
     def test_sort_items_by_price_in_descending_order(
@@ -69,3 +76,5 @@ class TestInventory:
             item_prices,
             "The items are not sorted in descending order according to their prices",
         )
+        logger.info("Successfully verified sorting of items based on high price to high price")
+
