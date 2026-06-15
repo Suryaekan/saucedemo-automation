@@ -38,7 +38,7 @@ jobs:
       - name: Run tests
         env:
             username: ${{ github.event.inputs.username || secrets.username }}
-            password: ${{ github.event.inputs.password || secrets.password}}
+            password: ${{ github.event.inputs.password || secrets.password }}
         run: pytest -v
 
       - name: Upload test report
