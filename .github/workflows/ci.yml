@@ -5,10 +5,10 @@ on:
     inputs:
       username:
         description: "Sauce Demo username"
-        required: true
+        required: false
       password:
         description: "Sauce Demo password"
-        required: true
+        required: false
 jobs:
   test:
     runs-on: ubuntu-latest
