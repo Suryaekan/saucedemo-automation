@@ -61,7 +61,7 @@ def browser(playwright_session: Playwright) -> Generator[Browser, None, None]:
         A launched Chromium ``Browser``.
     """
     logger.info("Launching Chromium (headless, slow_mo=1000ms)")
-    b = playwright_session.chromium.launch(headless=True, slow_mo=1000)
+    b = playwright_session.chromium.launch(headless=True)
     yield b
     b.close()
     logger.info("Browser closed")
