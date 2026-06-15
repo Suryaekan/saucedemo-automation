@@ -10,7 +10,6 @@ os.environ["SAUCE_DEMO_UNDER_PYTEST"] = "1"
 
 from collections.abc import Generator
 import logging
-
 import pytest
 from playwright.sync_api import (
     Browser,
@@ -87,6 +86,7 @@ def context(browser: Browser) -> Generator[BrowserContext, None, None]:
 @pytest.fixture(scope="session")
 def page(context: BrowserContext) -> Generator[Page, None, None]:
     """Open a single tab on Sauce Demo for the session.
+    page = context.new_page()
 
     Args:
         context: Session-scoped browser context.
@@ -94,9 +94,13 @@ def page(context: BrowserContext) -> Generator[Page, None, None]:
     Yields:
         A ``Page`` navigated to ``SAUCE_DEMO_URL``.
     """
-    pg = context.new_page()
-    logger.info("Opening %s", SAUCE_DEMO_URL)
-    pg.goto(SAUCE_DEMO_URL)
-    yield pg
-    pg.close()
+    username = os.getenv("username")
+    password = os.getenv("password")
+    page.goto("https://www.saucedemo.com/")
+    page.locator("//input[@data-test='username']").fill(username)
+    page.locator("//input[@data-test='password']").fill(password)
+    page.locator("//input[@data-test='login-button']").click()
+    page.wait_for_url("https://www.saucedemo.com/inventory.html")
+    yield page
+    page.close()
     logger.info("Page closed")
