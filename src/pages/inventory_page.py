@@ -67,6 +67,7 @@ class InventoryPage:
         Click on product sort container dropdown
         :return: None
         """
+        logger.info("clicking on product sort container")
         self.page.locator(self.dashboard_locators.product_sort_container_xpath).click(
             timeout=10000
         )
@@ -78,6 +79,7 @@ class InventoryPage:
         Returns:
             list[float]: The numerical prices of all listed items.
         """
+        logger.info("Getting prices of all the items listed on the inventory page.")
         float_prices = []
         prices = (
             self.page.locator(self.inventory_item_locators.inventory_item_price_xpath)
@@ -90,6 +92,7 @@ class InventoryPage:
         """
         Returns a list of names for all items displayed on the inventory page.
         """
+        logger.info("Getting names of all the items listed on the inventory page.")
         return (
             self.page.locator(self.inventory_item_locators.inventory_item_name_xpath)
         ).all_text_contents()
@@ -98,6 +101,7 @@ class InventoryPage:
         """
         Sorts the inventory items alphabetically from A to Z.
         """
+        logger.info("Selecting Sort by name by: Ascending order")
         self.page.locator(
             self.dashboard_locators.product_sort_container_xpath
         ).select_option(label="Name (A to Z)", timeout=10000)
@@ -106,6 +110,7 @@ class InventoryPage:
         """
         Sorts the inventory items alphabetically from Z to A.
         """
+        logger.info("Selecting Sort by name by: Descending order")
         self.page.locator(
             self.dashboard_locators.product_sort_container_xpath
         ).select_option(label="Name (Z to A)", timeout=10000)
@@ -114,6 +119,7 @@ class InventoryPage:
         """
         Sorts the inventory items by price from lowest to highest.
         """
+        logger.info("Selecting Sort by price by: Ascending order")
         self.page.locator(
             self.dashboard_locators.product_sort_container_xpath
         ).select_option(label="Price (low to high)", timeout=10000)
@@ -122,6 +128,7 @@ class InventoryPage:
         """
         Sorts the inventory items by price from highest to lowest.
         """
+        logger.info("Selecting Sort by price by: Descending order")
         self.page.locator(
             self.dashboard_locators.product_sort_container_xpath
         ).select_option(label="Price (high to low)", timeout=10000)
