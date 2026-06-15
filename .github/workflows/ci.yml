@@ -1,11 +1,16 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
+  workflow_dispatch:
+      inputs:
+        username:
+          description: "Sauce Demo username"
+          required: true
+          default: "standard_user"
+        password:
+          description: "Sauce Demo password"
+          required: true
+          default: "secret_sauce"
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -29,8 +34,10 @@ jobs:
           python -m playwright install chromium
 
       - name: Run tests
-        run: |
-          pytest -v
+        env:
+            username: ${{ github.event.inputs.username }}
+            password: ${{ github.event.inputs.password }}
+        run: pytest -v
 
       - name: Upload test report
         if: always()
