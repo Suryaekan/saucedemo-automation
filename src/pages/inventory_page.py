@@ -51,10 +51,6 @@ class InventoryPage:
         """
         logger.info("Opening sidebar menu")
         self.page.locator(self.dashboard_locators.dashboard_menu_button_xpath).click()
-        ).is_visible(timeout=10000)
-
-    def click_on_menu_button(self) -> None:
-        self.page.locator(self.dashboard_locators.dashboard_menu_button_xpath).click(timeout=10000)
 
     def click_on_product_sort_container(self):
         self.page.locator(self.dashboard_locators.product_sort_container_xpath).click(timeout=10000)
