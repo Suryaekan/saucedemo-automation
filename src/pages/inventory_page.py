@@ -29,7 +29,7 @@ class InventoryPage:
         float_prices = []
         prices = (self.page.locator(self.inventory_item_locators.inventory_item_price_xpath)).all_text_contents()
         for price in prices:
-            float_prices.append(price.lstrip('$'))
+            float_prices.append(float(price.lstrip('$')))
         return float_prices
 
     def get_name_of_all_listed_items(self) -> list[str]:
@@ -45,7 +45,7 @@ class InventoryPage:
         self.page.locator(self.dashboard_locators.product_sort_container_xpath).select_option(label="Price (low to high)", timeout=10000)
 
     def select_sort_by_price_descending_order(self):
-        self.page.locator(self.dashboard_locators.product_sort_container_xpath).select_option(label="Price (high to low)]", timeout=10000)
+        self.page.locator(self.dashboard_locators.product_sort_container_xpath).select_option(label="Price (high to low)", timeout=10000)
 
 class InventorySidebarPage:
     def __init__(self, page: Page):

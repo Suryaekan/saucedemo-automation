@@ -19,11 +19,20 @@ class TestLoginPage:
         get_test_instance.inventory_page.click_on_product_sort_container()
         get_test_instance.inventory_page.select_sort_by_name_ascending_order()
         listed_items = get_test_instance.inventory_page.get_name_of_all_listed_items()
-        pytest_check.equal(sorted(listed_items), listed_items, "The items are not sorted in Ascending order according to their names")
+        pytest_check.equal(sorted(listed_items), listed_items, "The items are not sorted in ascending order according to their names")
 
     def test_sort_items_by_name_in_descending_order(self, get_test_instance: SauceDemo):
         get_test_instance.inventory_page.click_on_product_sort_container()
         get_test_instance.inventory_page.select_sort_by_name_descending_order()
         listed_items = get_test_instance.inventory_page.get_name_of_all_listed_items()
-        pytest_check.equal(sorted(listed_items, reverse=True), listed_items, "The items are not sorted in Descending order according to their names")
+        pytest_check.equal(sorted(listed_items, reverse=True), listed_items, "The items are not sorted in descending order according to their names")
 
+    def test_sort_items_by_price_in_ascending_order(self, get_test_instance: SauceDemo):
+        get_test_instance.inventory_page.select_sort_by_price_ascending_order()
+        item_prices = get_test_instance.inventory_page.get_price_of_all_listed_items()
+        pytest_check.equal(sorted(item_prices), item_prices, "The items are not sorted in ascending order according to their prices")
+
+    def test_sort_items_by_price_in_descending_order(self, get_test_instance: SauceDemo):
+        get_test_instance.inventory_page.select_sort_by_price_descending_order()
+        item_prices = get_test_instance.inventory_page.get_price_of_all_listed_items()
+        pytest_check.equal(sorted(item_prices, reverse=True), item_prices, "The items are not sorted in descending order according to their prices")
