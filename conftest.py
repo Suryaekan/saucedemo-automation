@@ -101,6 +101,7 @@ def page(context: BrowserContext) -> Generator[Page, None, None]:
     page.locator("//input[@data-test='username']").fill(username)
     page.locator("//input[@data-test='password']").fill(password)
     page.locator("//input[@data-test='login-button']").click()
+    logger.debug(f"logging in with username: *{username}* and password: *{password}*")
     page.wait_for_url("https://www.saucedemo.com/inventory.html")
     yield page
     page.close()
