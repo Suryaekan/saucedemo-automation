@@ -14,6 +14,7 @@ class TestInventory:
         sauce_demo.inventory_page.wait_for_dashboard_to_be_visible()
         yield sauce_demo
 
+    @pytest.mark.inventory_page
     def test_sort_items_by_name_in_ascending_order(
         self, get_test_instance: SauceDemo
     )-> None:
@@ -27,6 +28,7 @@ class TestInventory:
             "The items are not sorted in ascending order according to their names",
         )
 
+    @pytest.mark.inventory_page
     def test_sort_items_by_name_in_descending_order(
         self, get_test_instance: SauceDemo
     ) -> None:
@@ -40,6 +42,7 @@ class TestInventory:
             "The items are not sorted in descending order according to their names",
         )
 
+    @pytest.mark.inventory_page
     def test_sort_items_by_price_in_ascending_order(
         self, get_test_instance: SauceDemo
     )-> None:
@@ -53,6 +56,7 @@ class TestInventory:
             "The items are not sorted in ascending order according to their prices",
         )
 
+    @pytest.mark.inventory_page
     def test_sort_items_by_price_in_descending_order(
         self, get_test_instance: SauceDemo
     )->  None:
