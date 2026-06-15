@@ -16,7 +16,7 @@ class TestLoginPage:
         yield sauce_demo
 
     def test_sort_items_by_name_in_ascending_order(self, get_test_instance: SauceDemo):
-        # get_test_instance.inventory_page.click_on_product_sort_container()
+        get_test_instance.inventory_page.click_on_product_sort_container()
         get_test_instance.inventory_page.select_sort_by_name_ascending_order()
         listed_items = get_test_instance.inventory_page.get_name_of_all_listed_items()
         pytest_check.equal(sorted(listed_items), listed_items, "The items are not sorted in Ascending order according to their names")
